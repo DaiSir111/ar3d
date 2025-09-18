@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR.js 动态模型示例</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <script src="https://unpkg.com/@ar-js-org/ar.js@3.4.3/aframe/build/aframe-ar.js"></script>
+   <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene embedded vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;"
+    arjs="sourceType: webcam; sourceWidth: 1280; sourceHeight: 720; sourceParameters: { facingMode: 'environment' }; debugUIEnabled: false;">
+
+    <!-- Marker + 模型 -->
+    <a-marker id="marker" type="pattern" url="./assets/patterns/pattern.patt">
+      <a-entity id="model"
+        gltf-model="./assets/models/scene.gltf"
+        scale="0.5 0.5 0.5"
+        animation-mixer
+        visible="false">
+      </a-entity>
+    </a-marker>
+
+
+
+    <!-- 摄像头 -->
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <script>
+    const marker = document.querySelector('#marker');
+    const model = document.querySelector('#model');
+
+    marker.addEventListener('markerFound', () => {
+      console.log('✅ Marker Found');  // ✅ 正确写法
+      model.setAttribute('visible', true);
+    });
+
+    marker.addEventListener('markerLost', () => {
+      console.log('❌ Marker Lost');  // ✅ 正确写法
+      model.setAttribute('visible', false);
+    });
+  </script>
+</body>
+
+</html>
